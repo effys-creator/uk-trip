@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>英国行程 · 伦敦 + 苏格兰高地</title>
+<style>
+  :root{
+    --ink:#1c2024; --muted:#5c636b; --hint:#9099a1; --line:#e6e9ec; --card:#ffffff; --bg:#f6f7f9;
+    --blue:#185FA5; --blue-bg:#E9F1FB;
+    --teal:#0F6E56; --teal-bg:#E3F5EE;
+    --amber:#8a5209; --amber-bg:#FBEFD8;
+    --green:#3B6D11; --green-bg:#ECF4DE;
+    --red:#A32D2D; --red-bg:#FCEBEB;
+    --gray:#7a828a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;font-size:15px;padding-bottom:76px;}
+  .hero{background:linear-gradient(135deg,#1a3a5c,#2d6a4f);color:#fff;padding:26px 20px 22px;}
+  .hero h1{font-size:21px;font-weight:700;margin-bottom:5px;}
+  .hero .sub{font-size:13px;opacity:.9;}
+  .hero .tags{margin-top:12px;display:flex;flex-wrap:wrap;gap:7px;}
+  .hero .tag{background:rgba(255,255,255,.18);border-radius:16px;padding:3px 11px;font-size:12px;}
+  .wrap{max-width:720px;margin:0 auto;padding:16px 14px;}
+  section{display:none;}
+  section.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+  h2.sec{font-size:16px;font-weight:700;margin:6px 2px 12px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px;margin-bottom:11px;box-shadow:0 1px 2px rgba(0,0,0,.03);}
+  .day .top{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:7px;}
+  .badge{font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:16px;color:#fff;white-space:nowrap;}
+  .b-blue{background:var(--blue);}.b-teal{background:var(--teal);}.b-amber{background:var(--amber);}
+  .b-green{background:var(--green);}.b-gray{background:var(--gray);}
+  .day .title{font-size:14.5px;font-weight:600;}
+  .day p{font-size:13.5px;color:var(--muted);margin-top:3px;}
+  .day b{color:var(--ink);font-weight:600;}
+  .day.hl{border-color:#9fd9c5;background:var(--teal-bg);}
+  .day.drive{border-color:#e6cf9a;background:var(--amber-bg);}
+  .drive-tag{display:inline-block;margin-top:6px;font-size:12.5px;color:var(--amber);font-weight:600;}
+  .warn{color:var(--red);font-weight:600;}
+  .tl{display:flex;gap:10px;padding:6px 0;border-left:2px solid var(--line);padding-left:11px;margin-left:2px;}
+  .tl .t{min-width:78px;font-size:12px;font-weight:600;color:var(--hint);}
+  .tl .c{font-size:13px;color:var(--muted);}
+  .tl.s{border-color:var(--teal);}.tl.s .t{color:var(--teal);}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th,td{text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{background:var(--bg);font-weight:600;font-size:12px;color:var(--muted);}
+  td b{font-weight:600;}
+  .pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:12px;background:var(--blue-bg);color:var(--blue);font-weight:600;}
+  ul.list{list-style:none;}
+  ul.list li{font-size:13.5px;color:var(--muted);padding:7px 0;border-bottom:1px solid var(--line);display:flex;gap:9px;align-items:flex-start;}
+  ul.list li:last-child{border-bottom:none;}
+  ul.list li .box{flex:none;width:17px;height:17px;border:1.5px solid var(--hint);border-radius:5px;margin-top:1px;}
+  ul.list li b{color:var(--ink);}
+  .note{font-size:12px;color:var(--hint);margin-top:8px;line-height:1.55;}
+  .big{font-size:20px;font-weight:700;color:var(--teal);}
+  .kv{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;}
+  .kv:last-child{border-bottom:none;}.kv .r{font-weight:700;}
+  .map-wrap{width:100%;height:320px;border-radius:12px;overflow:hidden;margin-bottom:12px;border:1px solid var(--line);}
+  .map-day-btns{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+  .map-day-btns button{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:4px 12px;font-size:12px;color:var(--muted);cursor:pointer;font-family:inherit;}
+  .map-day-btns button.active{background:var(--teal);color:#fff;border-color:var(--teal);}
+  .seg{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px;}
+  .seg:last-child{border-bottom:none;}
+  .seg .loc{font-weight:600;color:var(--ink);min-width:0;flex:1;}
+  .seg .arrow{color:var(--hint);flex:none;font-size:11px;}
+  .seg .dist{flex:none;text-align:right;font-size:12px;color:var(--amber);font-weight:600;min-width:80px;}
+  .tabbar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;z-index:50;padding-bottom:env(safe-area-inset-bottom);}
+  .tabbar button{flex:1;border:none;background:none;padding:9px 2px 8px;font-size:10.5px;color:var(--hint);display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;font-family:inherit;}
+  .tabbar button .ic{font-size:19px;line-height:1;}
+  .tabbar button.on{color:var(--teal);}
+  .tabbar button.on .ic{transform:translateY(-1px);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>英国 13 天 · 伦敦 + 苏格兰高地</h1>
+  <div class="sub">2026/9/24 – 10/7 · 2 人 · 火车往返 · 高地自驾</div>
+  <div class="tags">
+    <span class="tag">🏙️ 伦敦</span><span class="tag">🏰 爱丁堡</span>
+    <span class="tag">🏔️ 天空岛</span><span class="tag">⚽ 温布利看球</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- 行程 -->
+<section id="s-plan" class="active">
+  <h2 class="sec">每日行程</h2>
+
+  <div class="card day"><div class="top"><span class="badge b-gray">9/24 三</span><span class="title">香港出发</span></div><p>晚班机飞伦敦,机上过夜。</p></div>
+
+  <div class="card day"><div class="top"><span class="badge b-blue">9/25 四</span><span class="title">抵达伦敦 · 西敏区</span></div>
+    <p>放行李 → 下午西敏区:<b>白金汉宫 → 威斯敏斯特教堂 → 大本钟</b> → 顺游 <b>Belgravia</b>。傍晚 Soho 晚餐,倒时差。</p></div>
+
+  <div class="card day hl"><div class="top"><span class="badge b-teal">⭐ 9/26 六</span><span class="title">斯坦福桥 + 大英博物馆 + 看球</span></div>
+    <div class="tl"><div class="t">10:00</div><div class="c"><b>斯坦福桥球场导览</b>(切尔西,约1h)</div></div>
+    <div class="tl"><div class="t">12:00</div><div class="c"><b>大英博物馆</b>(精华2h,免费)</div></div>
+    <div class="tl"><div class="t">14:30</div><div class="c">回酒店休整</div></div>
+    <div class="tl s"><div class="t">17:00</div><div class="c">出发去温布利(~30min)</div></div>
+    <div class="tl s"><div class="t">19:45</div><div class="c"><b>⚽ 英格兰 vs 西班牙 · 温布利</b></div></div></div>
+
+  <div class="card day"><div class="top"><span class="badge b-blue">9/27 日</span><span class="title">白崖一日往返</span></div>
+    <p><b>多佛 / 七姐妹白崖</b>(火车或包车约2h)。海崖徒步、灯塔。傍晚回伦敦。</p></div>
+
+  <div class="card day"><div class="top"><span class="badge b-blue">9/28 一</span><span class="title">剑桥一日往返</span></div>
+    <p>火车约50min。<b>国王学院 · 康河撑篙 · 叹息桥</b>。傍晚回伦敦。</p></div>
+
+  <div class="card day hl"><div class="top"><span class="badge b-teal">9/29 二</span><span class="title">伦敦市区 · 歌剧</span></div>
+    <p><b>国家美术馆 → 贝克街221B</b> + 顺游 <b>Marylebone</b>。晚上 <b>西区歌剧</b>。</p></div>
+
+  <div class="card day hl"><div class="top"><span class="badge b-teal">9/30 三</span><span class="title">🚆 火车去爱丁堡 · 老城</span></div>
+    <p><b>LNER 伦敦→爱丁堡</b>(约4.5h)。下午:<b>城堡 → 皇家一英里 → 圣吉尔斯 → 荷里路德宫</b>。卡尔顿山看日落。</p></div>
+
+  <div class="card day drive"><div class="top"><span class="badge b-amber">10/1 四</span><span class="title">🥾亚瑟王座 → 🚗高地</span></div>
+    <p>清晨登 <b>亚瑟王座</b> → 取车 → <b>凯尔派马头 → Dalwhinnie 酒厂 → 格伦科</b>。宿威廉堡。</p>
+    <span class="drive-tag">🚗 ~4.5h / 240km</span></div>
+
+  <div class="card day drive"><div class="top"><span class="badge b-amber">10/2 五</span><span class="title">🚗 威廉堡 → 尼斯湖 → 天空岛</span></div>
+    <p><b>格伦芬南高架桥</b> → <b>尼斯湖 + 厄克特城堡</b> → <b>埃琳多南城堡</b> → 入岛。宿 Portree。</p>
+    <span class="drive-tag">🚗 ~5h / 260km · 景点多,早出发</span></div>
+
+  <div class="card day drive"><div class="top"><span class="badge b-amber">10/3 六</span><span class="title">🚗 天空岛全天环岛</span></div>
+    <p><b>老人峰 → Kilt Rock → Quiraing → 精灵瀑布 → Talisker 酒厂 → Neist Point</b></p>
+    <span class="drive-tag warn">🚗 ~130km · 单车道较窄,注意避让</span></div>
+
+  <div class="card day drive"><div class="top"><span class="badge b-green">10/4 日</span><span class="title">🚗 天空岛 → 爱丁堡还车</span></div>
+    <p>走 A87→A9 回爱丁堡。沿途可停 <b>Pitlochry 小镇</b>。还车。</p>
+    <span class="drive-tag warn">🚗 ~5h / 280km · 最长一天,早出发</span></div>
+
+  <div class="card day"><div class="top"><span class="badge b-blue">10/5 一</span><span class="title">🚆 爱丁堡新城 → 下午回伦敦</span></div>
+    <p>上午逛 <b>迪恩村(Dean Village)· Stockbridge · 王子街花园</b>。下午火车 <b>LNER 爱丁堡→伦敦</b>(~4.5h)。</p></div>
+
+  <div class="card day"><div class="top"><span class="badge b-gray">10/6 二</span><span class="title">离开伦敦 · 17:00 飞香港</span></div>
+    <p>上午收尾 → 提前3h到希思罗 → 17:00 起飞。</p></div>
+
+  <div class="card day"><div class="top"><span class="badge b-gray">10/7 三</span><span class="title">香港 → 深圳</span></div>
+    <p>抵港过关回深圳。</p></div>
+</section>
+
+<!-- 苏格兰自驾+地图 -->
+<section id="s-drive">
+  <h2 class="sec">苏格兰自驾 · 地图</h2>
+
+  <div class="map-day-btns" id="mapBtns">
+    <button class="active" data-day="all">全程</button>
+    <button data-day="d29">10/1</button>
+    <button data-day="d30">10/2</button>
+    <button data-day="d1">10/3</button>
+    <button data-day="d2">10/4</button>
+  </div>
+  <div class="map-wrap" id="mapContainer">
+    <iframe id="mapFrame" width="100%" height="100%" frameborder="0" style="border:0;border-radius:12px;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      src="https://www.google.com/maps/embed?pb=!1m46!1m12!1m3!1d2200000!2d-4.5!3d57.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m31!3e0!4m5!1s0x4887b800a5982623%3A0x64f2147b7ce71727!2sEdinburgh!3m2!1d55.953252!2d-3.188267!4m5!1s0x488929a3437ca4f1%3A0x8234baf7c1c5edab!2sFort+William!3m2!1d56.819817!2d-5.105218!4m5!1s0x488c5a1460403a75%3A0x20b705c55a2ab64!2sPortree+Isle+of+Skye!3m2!1d57.412527!2d-6.195204!4m5!1s0x4887b800a5982623%3A0x64f2147b7ce71727!2sEdinburgh!3m2!1d55.953252!2d-3.188267!5e0!3m2!1sen!2suk!4v1"></iframe>
+  </div>
+
+  <div class="card">
+    <p style="font-size:13.5px;color:var(--muted);margin-bottom:10px;">爱丁堡取车/还车(同城)。租4天(10/1–10/4)。全程自驾,天空岛单车道注意避让来车。</p>
+  </div>
+
+  <div class="card">
+    <h2 class="sec" style="margin-top:0;">10/1 爱丁堡 → 威廉堡</h2>
+    <div class="seg"><span class="loc">爱丁堡(取车)</span><span class="arrow">→</span><span class="loc">凯尔派马头</span><span class="dist">50min/45km</span></div>
+    <div class="seg"><span class="loc">凯尔派马头</span><span class="arrow">→</span><span class="loc">Dalwhinnie 酒厂</span><span class="dist">1h20/110km</span></div>
+    <div class="seg"><span class="loc">Dalwhinnie 酒厂</span><span class="arrow">→</span><span class="loc">格伦科</span><span class="dist">1h10/75km</span></div>
+    <div class="seg"><span class="loc">格伦科</span><span class="arrow">→</span><span class="loc">威廉堡</span><span class="dist">25min/25km</span></div>
+    <p class="note">全程约 240km / 纯驾驶 3.5h + 景点停留。A9 高速为主,路况好。</p>
+  </div>
+
+  <div class="card">
+    <h2 class="sec" style="margin-top:0;">10/2 威廉堡 → 天空岛</h2>
+    <div class="seg"><span class="loc">威廉堡</span><span class="arrow">→</span><span class="loc">格伦芬南高架桥</span><span class="dist">25min/25km</span></div>
+    <div class="seg"><span class="loc">格伦芬南</span><span class="arrow">→</span><span class="loc">尼斯湖·厄克特城堡</span><span class="dist">1h/60km</span></div>
+    <div class="seg"><span class="loc">厄克特城堡</span><span class="arrow">→</span><span class="loc">埃琳多南城堡</span><span class="dist">1h10/80km</span></div>
+    <div class="seg"><span class="loc">埃琳多南城堡</span><span class="arrow">→</span><span class="loc">Portree(天空岛)</span><span class="dist">1h20/95km</span></div>
+    <p class="note">全程约 260km / 纯驾驶 4h + 景点停留。A82+A87,单车道路段多,注意避让。</p>
+  </div>
+
+  <div class="card">
+    <h2 class="sec" style="margin-top:0;">10/3 天空岛环岛</h2>
+    <div class="seg"><span class="loc">Portree</span><span class="arrow">→</span><span class="loc">老人峰(Old Man of Storr)</span><span class="dist">15min/12km</span></div>
+    <div class="seg"><span class="loc">老人峰</span><span class="arrow">→</span><span class="loc">Kilt Rock + Quiraing</span><span class="dist">25min/20km</span></div>
+    <div class="seg"><span class="loc">Quiraing</span><span class="arrow">→</span><span class="loc">精灵瀑布(Fairy Pools)</span><span class="dist">50min/45km</span></div>
+    <div class="seg"><span class="loc">精灵瀑布</span><span class="arrow">→</span><span class="loc">Talisker 酒厂(Carbost)</span><span class="dist">10min/5km</span></div>
+    <div class="seg"><span class="loc">Talisker</span><span class="arrow">→</span><span class="loc">Neist Point 灯塔</span><span class="dist">25min/18km</span></div>
+    <div class="seg"><span class="loc">Neist Point</span><span class="arrow">→</span><span class="loc">Portree</span><span class="dist">45min/40km</span></div>
+    <p class="note">全程约 130km / 单车道较窄,全程自驾。遇来车在 passing place 避让。Talisker 参观约 1h。</p>
+  </div>
+
+  <div class="card">
+    <h2 class="sec" style="margin-top:0;">10/4 天空岛 → 爱丁堡</h2>
+    <div class="seg"><span class="loc">Portree</span><span class="arrow">→</span><span class="loc">天空岛桥(出岛)</span><span class="dist">40min/50km</span></div>
+    <div class="seg"><span class="loc">天空岛桥</span><span class="arrow">→</span><span class="loc">Pitlochry 小镇</span><span class="dist">2h40/200km</span></div>
+    <div class="seg"><span class="loc">Pitlochry</span><span class="arrow">→</span><span class="loc">爱丁堡(还车)</span><span class="dist">1h20/110km</span></div>
+    <p class="note">全程约 280km / 纯驾驶 4.5–5h。A87→A9,路况好但距离长,8点前出发。</p>
+  </div>
+</section>
+
+<!-- 看球 -->
+<section id="s-ball">
+  <h2 class="sec">看球 · 英格兰 vs 西班牙</h2>
+  <div class="card day hl"><div class="top"><span class="badge b-teal">⭐ 9/26 19:45</span><span class="title">温布利球场</span></div>
+    <p>2026/27 欧国联 A级。在英期间英超/欧冠/西甲全因国际比赛日休赛,这是唯一顶级赛事,含金量高。</p></div>
+  <div class="card">
+    <h2 class="sec" style="margin-top:0;">官方购票(三级顺序)</h2>
+    <ul class="list">
+      <li><span class="pill">1</span><div>England Supporters Travel Club(付费,最早)</div></li>
+      <li><span class="pill">2</span><div><b>My England Football(免费,推荐)</b> — englandfootball.com 注册</div></li>
+      <li><span class="pill">3</span><div>公开发售 — 热门大概率轮不到</div></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2 class="sec" style="margin-top:0;">二手渠道</h2>
+    <ul class="list">
+      <li>✅<div><b>Twickets</b>(官方限价,首选)、FA Ticket Exchange</div></li>
+      <li>△<div>StubHub / Viagogo — 实名电子票可能进不了场</div></li>
+      <li>❌<div>黄牛 / 私下交易 — 假票或违法,别碰</div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 天气 -->
+<section id="s-weather">
+  <h2 class="sec">天气 &amp; 着装</h2>
+  <div class="card">
+    <table>
+      <tr><th>区域</th><th>白天/夜间</th><th>降雨</th></tr>
+      <tr><td>伦敦/南部</td><td>15-17°C / 9-11°C</td><td>11-14 雨天/月</td></tr>
+      <tr><td>爱丁堡</td><td>13-15°C / 6-8°C</td><td>13-17 雨天</td></tr>
+      <tr><td>高地/天空岛</td><td>11-12°C / 5-8°C</td><td><b class="warn">21 雨天,概率67%</b></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h2 class="sec" style="margin-top:0;">打包清单</h2>
+    <ul class="list">
+      <li>🧥<div><b>防水冲锋衣</b>(带帽)— 天空岛必备,风大伞会翻</div></li>
+      <li>🥾<div><b>防滑徒步鞋</b> — 老人峰/精灵瀑布泥泞</div></li>
+      <li>🧶<div>抓绒/薄羽绒中层 + 短袖打底(洋葱式)</div></li>
+      <li>👖<div>快干裤(别穿牛仔)、薄手套/帽(高地清晨)</div></li>
+      <li>⚽<div>9/26 温布利夜场偏凉,带保暖外套</div></li>
+    </ul>
+    <p class="note">10月初日照短(苏格兰约18:15黑),高地拍照排下午3点前。</p>
+  </div>
+</section>
+
+<!-- 预算 -->
+<section id="s-budget">
+  <h2 class="sec">预算(2人 · 舒适型 · ¥)</h2>
+  <div class="card">
+    <div class="kv"><span>全程总预算</span><span class="r"><span class="big">¥5.8–9.5万</span></span></div>
+    <div class="kv"><span>人均</span><span class="r">¥2.9–4.8万</span></div>
+    <div class="kv"><span>已确定</span><span class="r" style="color:var(--teal);">¥24,746</span></div>
+    <div class="kv"><span>待定预估</span><span class="r">¥3.3–7.0万</span></div>
+    <p class="note">汇率约 ¥9.3/£。多个博物馆免费。天空岛自驾可省包车项。</p>
+  </div>
+  <div class="card">
+    <table>
+      <tr><th>类别</th><th>金额(2人)</th><th>状态</th></tr>
+      <tr><td>✈️ 往返机票</td><td><b>¥21,746</b></td><td style="color:var(--teal);">已定</td></tr>
+      <tr><td>📋 签证</td><td><b>¥3,000</b></td><td style="color:var(--teal);">已定</td></tr>
+      <tr><td>🚆 火车(伦敦↔爱丁堡×2)</td><td>¥3,600</td><td>预估</td></tr>
+      <tr><td>🏨 住宿(11晚)</td><td>¥13,000–22,000</td><td>待定</td></tr>
+      <tr><td>🍽️ 餐饮</td><td>¥7,000–12,000</td><td>待定</td></tr>
+      <tr><td>🚗 租车(4天)</td><td>¥2,800–4,500</td><td>待定</td></tr>
+      <tr><td>🎫 门票/导览</td><td>¥2,000–3,500</td><td>待定</td></tr>
+      <tr><td>🚌 近郊交通(白崖/剑桥)</td><td>¥1,500–3,500</td><td>待定</td></tr>
+      <tr><td>⚽ 球票</td><td>¥900–3,000</td><td>待定</td></tr>
+      <tr><td>🎭 歌剧</td><td>¥700–1,600</td><td>待定</td></tr>
+      <tr><td>🚇 市内交通</td><td>¥700–1,200</td><td>待定</td></tr>
+      <tr><td>🛍️ 购物杂费</td><td>¥2,000–5,000</td><td>待定</td></tr>
+      <tr><td>🛡️ 旅行保险</td><td>¥500–1,000</td><td>待定</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- 清单 -->
+<section id="s-todo">
+  <h2 class="sec">出行前预订清单</h2>
+  <div class="card">
+    <h2 class="sec" style="margin-top:0;">交通</h2>
+    <ul class="list">
+      <li><span class="box"></span><div>往返机票(已定)</div></li>
+      <li><span class="box"></span><div>火车 伦敦→爱丁堡(LNER,9/30 周三)</div></li>
+      <li><span class="box"></span><div>火车 爱丁堡→伦敦(LNER,10/5 周一下午)</div></li>
+      <li><span class="box"></span><div>租车 爱丁堡取/爱丁堡还(10/1–10/4,4天)</div></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2 class="sec" style="margin-top:0;">必须提前预约 🔴</h2>
+    <ul class="list">
+      <li><span class="box"></span><div><b>温布利英西球票</b>(My England Football / Twickets)</div></li>
+      <li><span class="box"></span><div><b>斯坦福桥球场导览</b>(chelseafc.com,9/26 上午10:00,提前3-4周)</div></li>
+      <li><span class="box"></span><div><b>爱丁堡城堡</b>(edinburghcastle.scot,9/30 定时票,提前2周)</div></li>
+      <li><span class="box"></span><div><b>西区歌剧票</b>(9/29 周二晚场,尽早订)</div></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2 class="sec" style="margin-top:0;">强烈建议预约 🟡</h2>
+    <ul class="list">
+      <li><span class="box"></span><div><b>大英博物馆</b>(britishmuseum.org,9/26 免费定时票,提前2周)</div></li>
+      <li><span class="box"></span><div><b>Dalwhinnie 酒厂</b>(10/1,官网预订,提前2-3周)</div></li>
+      <li><span class="box"></span><div><b>Talisker 酒厂</b>(10/3,官网预订,提前2-3周)</div></li>
+      <li><span class="box"></span><div><b>荷里路德宫</b>(rct.uk,9/30 下午,提前1-2周)</div></li>
+      <li><span class="box"></span><div><b>剑桥国王学院</b>(kings.cam.ac.uk,9/28,提前1周)</div></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2 class="sec" style="margin-top:0;">住宿</h2>
+    <ul class="list">
+      <li><span class="box"></span><div>伦敦(9/25-29,5晚 + 10/5,1晚)</div></li>
+      <li><span class="box"></span><div>爱丁堡(9/30,1晚 + 10/4,1晚)</div></li>
+      <li><span class="box"></span><div>威廉堡(10/1,1晚)</div></li>
+      <li><span class="box"></span><div><b>天空岛 Portree</b>(10/2-3,2晚,旺季优先订!)</div></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2 class="sec" style="margin-top:0;">无需预约 ✅</h2>
+    <ul class="list">
+      <li><span class="box"></span><div>国家美术馆(免费直接进)</div></li>
+      <li><span class="box"></span><div>贝克街221B(现场排队购票)</div></li>
+      <li><span class="box"></span><div>白崖 / 卡尔顿山/ 亚瑟王座(户外免费)</div></li>
+      <li><span class="box"></span><div>Dean Village / Stockbridge(街区散步)</div></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2 class="sec" style="margin-top:0;">其他</h2>
+    <ul class="list">
+      <li><span class="box"></span><div>英国签证 + 旅行保险</div></li>
+    </ul>
+  </div>
+</section>
+
+</div>
+
+<nav class="tabbar">
+  <button class="on" data-t="s-plan"><span class="ic">📅</span>行程</button>
+  <button data-t="s-drive"><span class="ic">🚗</span>自驾</button>
+  <button data-t="s-ball"><span class="ic">⚽</span>看球</button>
+  <button data-t="s-weather"><span class="ic">🌦️</span>天气</button>
+  <button data-t="s-budget"><span class="ic">💰</span>预算</button>
+  <button data-t="s-todo"><span class="ic">✅</span>清单</button>
+</nav>
+
+<script>
+var btns=document.querySelectorAll('.tabbar button');
+btns.forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('section').forEach(function(s){s.classList.remove('active');});
+    btns.forEach(function(x){x.classList.remove('on');});
+    document.getElementById(b.dataset.t).classList.add('active');
+    b.classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+document.querySelectorAll('ul.list li .box').forEach(function(box){
+  box.addEventListener('click',function(e){
+    e.stopPropagation();
+    if(box.style.background){box.style.background='';box.innerHTML='';}
+    else{box.style.background='#0F6E56';box.style.borderColor='#0F6E56';box.innerHTML='<span style="color:#fff;font-size:12px;display:block;text-align:center;line-height:14px;">\u2713</span>';}
+  });
+});
+
+var mapUrls={
+  all:'https://www.google.com/maps/embed?pb=!1m34!1m12!1m3!1d900000!2d-4.5!3d56.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m19!3e0!4m5!1s0x4887b800a5982623%3A0x64f2147b7ce71727!2sEdinburgh!3m2!1d55.953252!2d-3.188267!4m5!1s0x488929a3437ca4f1%3A0x8234baf7c1c5edab!2sFort+William!3m2!1d56.819817!2d-5.105218!4m5!1s0x488c5a1460403a75%3A0x20b705c55a2ab64!2sPortree+Isle+of+Skye!3m2!1d57.412527!2d-6.195204!5e0!3m2!1sen!2suk!4v1',
+  d29:'https://www.google.com/maps/embed?pb=!1m34!1m12!1m3!1d900000!2d-4.2!3d56.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m19!3e0!4m5!1s0x4887b800a5982623%3A0x64f2147b7ce71727!2sEdinburgh!3m2!1d55.953252!2d-3.188267!4m5!1s0x488aab06a25509c3%3A0x5765e817e82c4840!2sDalwhinnie+Distillery!3m2!1d56.9435!2d-4.2445!4m5!1s0x488929a3437ca4f1%3A0x8234baf7c1c5edab!2sFort+William!3m2!1d56.819817!2d-5.105218!5e0!3m2!1sen!2suk!4v1',
+  d30:'https://www.google.com/maps/embed?pb=!1m34!1m12!1m3!1d900000!2d-5.2!3d57.1!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m19!3e0!4m5!1s0x488929a3437ca4f1%3A0x8234baf7c1c5edab!2sFort+William!3m2!1d56.819817!2d-5.105218!4m5!1s0x488c27f6567ab0fd%3A0xd8f80e498b76afe0!2sUrquhart+Castle!3m2!1d57.3243!2d-4.4425!4m5!1s0x488c5a1460403a75%3A0x20b705c55a2ab64!2sPortree+Isle+of+Skye!3m2!1d57.412527!2d-6.195204!5e0!3m2!1sen!2suk!4v1',
+  d1:'https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d250000!2d-6.3!3d57.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x488c5a1460403a75%3A0x20b705c55a2ab64!2sPortree+Isle+of+Skye!3m2!1d57.412527!2d-6.195204!4m5!1s0x488cbfb11c250001%3A0xbae8019ea2960869!2sNeist+Point+Lighthouse!3m2!1d57.4233!2d-6.788!5e0!3m2!1sen!2suk!4v1',
+  d2:'https://www.google.com/maps/embed?pb=!1m34!1m12!1m3!1d1100000!2d-4.8!3d56.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m19!3e0!4m5!1s0x488c5a1460403a75%3A0x20b705c55a2ab64!2sPortree+Isle+of+Skye!3m2!1d57.412527!2d-6.195204!4m5!1s0x4886299e0667c891%3A0x59cdd667a4f6fa03!2sPitlochry!3m2!1d56.7046!2d-3.7346!4m5!1s0x4887b800a5982623%3A0x64f2147b7ce71727!2sEdinburgh!3m2!1d55.953252!2d-3.188267!5e0!3m2!1sen!2suk!4v1'
+};
+
+document.getElementById('mapBtns').addEventListener('click',function(e){
+  var btn=e.target.closest('button');
+  if(!btn)return;
+  document.querySelectorAll('#mapBtns button').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  var frame=document.getElementById('mapFrame');
+  if(mapUrls[btn.dataset.day]){frame.src=mapUrls[btn.dataset.day];}
+});
+</script>
+</body>
+</html>
