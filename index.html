@@ -65,6 +65,10 @@
   .seg .loc{font-weight:600;color:var(--ink);min-width:0;flex:1;}
   .seg .arrow{color:var(--hint);flex:none;font-size:11px;}
   .seg .dist{flex:none;text-align:right;font-size:12px;color:var(--amber);font-weight:600;min-width:80px;}
+  .hotel-note{margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:8px;font-size:12.5px;color:var(--muted);min-height:20px;outline:none;background:#fafbfc;transition:border-color .2s;}
+  .hotel-note:focus{border-color:var(--teal);background:#fff;}
+  .hotel-note:empty:before{content:attr(data-placeholder);color:var(--hint);pointer-events:none;}
+  .hotel-label{font-size:11px;color:var(--hint);margin-top:8px;margin-bottom:2px;display:flex;align-items:center;gap:4px;}
   .tabbar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;z-index:50;padding-bottom:env(safe-area-inset-bottom);}
   .tabbar button{flex:1;border:none;background:none;padding:9px 2px 8px;font-size:10.5px;color:var(--hint);display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;font-family:inherit;}
   .tabbar button .ic{font-size:19px;line-height:1;}
@@ -92,45 +96,67 @@
   <div class="card day"><div class="top"><span class="badge b-gray">9/24 三</span><span class="title">香港出发</span></div><p>晚班机飞伦敦,机上过夜。</p></div>
 
   <div class="card day"><div class="top"><span class="badge b-blue">9/25 四</span><span class="title">抵达伦敦 · 西敏区</span></div>
-    <p>放行李 → 下午西敏区:<b>白金汉宫 → 威斯敏斯特教堂 → 大本钟</b> → 顺游 <b>Belgravia</b>。傍晚 Soho 晚餐,倒时差。</p></div>
+    <p>放行李 → 下午西敏区:<b>白金汉宫 → 威斯敏斯特教堂 → 大本钟</b> → 顺游 <b>Belgravia</b>。傍晚 Soho 晚餐,倒时差。</p>
+    <div class="hotel-label">🏨 住宿</div>
+    <div class="hotel-note" contenteditable="true" data-day="925" data-placeholder="点击填写住宿信息..."></div></div>
 
   <div class="card day hl"><div class="top"><span class="badge b-teal">⭐ 9/26 六</span><span class="title">斯坦福桥 + 大英博物馆 + 看球</span></div>
     <div class="tl"><div class="t">10:00</div><div class="c"><b>斯坦福桥球场导览</b>(切尔西,约1h)</div></div>
     <div class="tl"><div class="t">12:00</div><div class="c"><b>大英博物馆</b>(精华2h,免费)</div></div>
     <div class="tl"><div class="t">14:30</div><div class="c">回酒店休整</div></div>
     <div class="tl s"><div class="t">17:00</div><div class="c">出发去温布利(~30min)</div></div>
-    <div class="tl s"><div class="t">19:45</div><div class="c"><b>⚽ 英格兰 vs 西班牙 · 温布利</b></div></div></div>
+    <div class="tl s"><div class="t">19:45</div><div class="c"><b>⚽ 英格兰 vs 西班牙 · 温布利</b></div></div>
+    <div class="hotel-label">🏨 住宿</div>
+    <div class="hotel-note" contenteditable="true" data-day="926" data-placeholder="点击填写住宿信息..."></div></div>
 
   <div class="card day"><div class="top"><span class="badge b-blue">9/27 日</span><span class="title">白崖一日往返</span></div>
-    <p><b>多佛 / 七姐妹白崖</b>(火车或包车约2h)。海崖徒步、灯塔。傍晚回伦敦。</p></div>
+    <p><b>多佛 / 七姐妹白崖</b>(火车或包车约2h)。海崖徒步、灯塔。傍晚回伦敦。</p>
+    <div class="hotel-label">🏨 住宿</div>
+    <div class="hotel-note" contenteditable="true" data-day="927" data-placeholder="点击填写住宿信息..."></div></div>
 
   <div class="card day"><div class="top"><span class="badge b-blue">9/28 一</span><span class="title">剑桥一日往返</span></div>
-    <p>火车约50min。<b>国王学院 · 康河撑篙 · 叹息桥</b>。傍晚回伦敦。</p></div>
+    <p>火车约50min。<b>国王学院 · 康河撑篙 · 叹息桥</b>。傍晚回伦敦。</p>
+    <div class="hotel-label">🏨 住宿</div>
+    <div class="hotel-note" contenteditable="true" data-day="928" data-placeholder="点击填写住宿信息..."></div></div>
 
   <div class="card day hl"><div class="top"><span class="badge b-teal">9/29 二</span><span class="title">伦敦市区 · 歌剧</span></div>
-    <p><b>国家美术馆 → 贝克街221B</b> + 顺游 <b>Marylebone</b>。晚上 <b>西区歌剧</b>。</p></div>
+    <p><b>国家美术馆 → 贝克街221B</b> + 顺游 <b>Marylebone</b>。晚上 <b>西区歌剧</b>。</p>
+    <div class="hotel-label">🏨 住宿</div>
+    <div class="hotel-note" contenteditable="true" data-day="929" data-placeholder="点击填写住宿信息..."></div></div>
 
   <div class="card day hl"><div class="top"><span class="badge b-teal">9/30 三</span><span class="title">🚆 火车去爱丁堡 · 老城</span></div>
-    <p><b>LNER 伦敦→爱丁堡</b>(约4.5h)。下午:<b>城堡 → 皇家一英里 → 圣吉尔斯 → 荷里路德宫</b>。卡尔顿山看日落。</p></div>
+    <p><b>LNER 伦敦→爱丁堡</b>(约4.5h)。下午:<b>城堡 → 皇家一英里 → 圣吉尔斯 → 荷里路德宫</b>。卡尔顿山看日落。</p>
+    <div class="hotel-label">🏨 住宿</div>
+    <div class="hotel-note" contenteditable="true" data-day="930" data-placeholder="点击填写住宿信息..."></div></div>
 
   <div class="card day drive"><div class="top"><span class="badge b-amber">10/1 四</span><span class="title">🥾亚瑟王座 → 🚗高地</span></div>
     <p>清晨登 <b>亚瑟王座</b> → 取车 → <b>凯尔派马头 → Dalwhinnie 酒厂 → 格伦科</b>。宿威廉堡。</p>
-    <span class="drive-tag">🚗 ~4.5h / 240km</span></div>
+    <span class="drive-tag">🚗 ~4.5h / 240km</span>
+    <div class="hotel-label">🏨 住宿</div>
+    <div class="hotel-note" contenteditable="true" data-day="1001" data-placeholder="点击填写住宿信息..."></div></div>
 
   <div class="card day drive"><div class="top"><span class="badge b-amber">10/2 五</span><span class="title">🚗 威廉堡 → 尼斯湖 → 天空岛</span></div>
     <p><b>格伦芬南高架桥</b> → <b>尼斯湖 + 厄克特城堡</b> → <b>埃琳多南城堡</b> → 入岛。宿 Portree。</p>
-    <span class="drive-tag">🚗 ~5h / 260km · 景点多,早出发</span></div>
+    <span class="drive-tag">🚗 ~5h / 260km · 景点多,早出发</span>
+    <div class="hotel-label">🏨 住宿</div>
+    <div class="hotel-note" contenteditable="true" data-day="1002" data-placeholder="点击填写住宿信息..."></div></div>
 
   <div class="card day drive"><div class="top"><span class="badge b-amber">10/3 六</span><span class="title">🚗 天空岛全天环岛</span></div>
     <p><b>老人峰 → Kilt Rock → Quiraing → 精灵瀑布 → Talisker 酒厂 → Neist Point</b></p>
-    <span class="drive-tag warn">🚗 ~130km · 单车道较窄,注意避让</span></div>
+    <span class="drive-tag warn">🚗 ~130km · 单车道较窄,注意避让</span>
+    <div class="hotel-label">🏨 住宿</div>
+    <div class="hotel-note" contenteditable="true" data-day="1003" data-placeholder="点击填写住宿信息..."></div></div>
 
   <div class="card day drive"><div class="top"><span class="badge b-green">10/4 日</span><span class="title">🚗 天空岛 → 爱丁堡还车</span></div>
     <p>走 A87→A9 回爱丁堡。沿途可停 <b>Pitlochry 小镇</b>。还车。</p>
-    <span class="drive-tag warn">🚗 ~5h / 280km · 最长一天,早出发</span></div>
+    <span class="drive-tag warn">🚗 ~5h / 280km · 最长一天,早出发</span>
+    <div class="hotel-label">🏨 住宿</div>
+    <div class="hotel-note" contenteditable="true" data-day="1004" data-placeholder="点击填写住宿信息..."></div></div>
 
   <div class="card day"><div class="top"><span class="badge b-blue">10/5 一</span><span class="title">🚆 爱丁堡新城 → 下午回伦敦</span></div>
-    <p>上午逛 <b>迪恩村(Dean Village)· Stockbridge · 王子街花园</b>。下午火车 <b>LNER 爱丁堡→伦敦</b>(~4.5h)。</p></div>
+    <p>上午逛 <b>迪恩村(Dean Village)· Stockbridge · 王子街花园</b>。下午火车 <b>LNER 爱丁堡→伦敦</b>(~4.5h)。</p>
+    <div class="hotel-label">🏨 住宿</div>
+    <div class="hotel-note" contenteditable="true" data-day="1005" data-placeholder="点击填写住宿信息..."></div></div>
 
   <div class="card day"><div class="top"><span class="badge b-gray">10/6 二</span><span class="title">离开伦敦 · 17:00 飞香港</span></div>
     <p>上午收尾 → 提前3h到希思罗 → 17:00 起飞。</p></div>
@@ -376,6 +402,16 @@ document.getElementById('mapBtns').addEventListener('click',function(e){
   btn.classList.add('active');
   var frame=document.getElementById('mapFrame');
   if(mapUrls[btn.dataset.day]){frame.src=mapUrls[btn.dataset.day];}
+});
+
+// Hotel notes: load from localStorage
+document.querySelectorAll('.hotel-note').forEach(function(el){
+  var key='hotel_'+el.dataset.day;
+  var saved=localStorage.getItem(key);
+  if(saved){el.textContent=saved;}
+  el.addEventListener('input',function(){
+    localStorage.setItem(key,el.textContent);
+  });
 });
 </script>
 </body>
