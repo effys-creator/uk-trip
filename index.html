@@ -421,7 +421,7 @@ document.querySelectorAll('.hotel-note').forEach(function(el){
 
 // === Multi-note system with jsonblob cloud sync ===
 var BLOB_URL='https://jsonblob.com/api/jsonBlob/019fe227-1ebb-7201-beb6-bd1f4e2a7f21';
-var DAYS=['924','925','926','927','928','929','930','1001','1002','1003','1004','1005','1006'];
+var DAYS=['924','925','926','927','928','929','930','1001','1002','1003','1004','1005','1006','1007'];
 var notesData={};
 var savingTimeout=null;
 
@@ -490,18 +490,20 @@ document.addEventListener('click',function(e){
 
 // Inject note containers into each day card
 DAYS.forEach(function(dayId){
-  var cards=document.querySelectorAll('.card.day, .card.day.hl, .card.day.drive');
+  var cards=document.querySelectorAll('#s-plan .card');
   cards.forEach(function(card){
     var badge=card.querySelector('.badge');
     if(!badge)return;
     var text=badge.textContent;
-    var match=false;
+    var dayNum,monthStr;
     if(dayId.length===3){
-      match=text.indexOf('9/'+dayId.slice(1))!==-1;
+      dayNum=parseInt(dayId.slice(1));
+      monthStr='9/'+dayNum+' ';
     }else{
-      match=text.indexOf('10/'+dayId.slice(2))!==-1;
+      dayNum=parseInt(dayId.slice(2));
+      monthStr='10/'+dayNum+' ';
     }
-    if(match&&!document.getElementById('notes-'+dayId)){
+    if(text.indexOf(monthStr)!==-1&&!document.getElementById('notes-'+dayId)){
       var sec=document.createElement('div');
       sec.className='notes-section';
       sec.id='notes-'+dayId;
