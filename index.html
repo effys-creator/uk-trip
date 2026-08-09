@@ -204,7 +204,7 @@
   </div>
   <div class="map-wrap" id="mapContainer">
     <iframe id="mapFrame" width="100%" height="100%" frameborder="0" style="border:0;border-radius:12px;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-      src="https://www.google.com/maps/embed?pb=!1m46!1m12!1m3!1d2200000!2d-4.5!3d57.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m31!3e0!4m5!1s0x4887b800a5982623%3A0x64f2147b7ce71727!2sEdinburgh!3m2!1d55.953252!2d-3.188267!4m5!1s0x488929a3437ca4f1%3A0x8234baf7c1c5edab!2sFort+William!3m2!1d56.819817!2d-5.105218!4m5!1s0x488c5a1460403a75%3A0x20b705c55a2ab64!2sPortree+Isle+of+Skye!3m2!1d57.412527!2d-6.195204!4m5!1s0x4887b800a5982623%3A0x64f2147b7ce71727!2sEdinburgh!3m2!1d55.953252!2d-3.188267!5e0!3m2!1sen!2suk!4v1"></iframe>
+      src="https://www.google.com/maps/embed?pb=!1m34!1m12!1m3!1d900000!2d-4.5!3d56.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m19!3e0!4m5!1s0x4887b800a5982623%3A0x64f2147b7ce71727!2sEdinburgh!3m2!1d55.953252!2d-3.188267!4m5!1s0x488929a3437ca4f1%3A0x8234baf7c1c5edab!2sFort+William!3m2!1d56.819817!2d-5.105218!4m5!1s0x488c5a1460403a75%3A0x20b705c55a2ab64!2sPortree+Isle+of+Skye!3m2!1d57.412527!2d-6.195204!5e0!3m2!1sen!2suk!4v1"></iframe>
   </div>
 
   <div class="card">
@@ -409,7 +409,7 @@ document.getElementById('mapBtns').addEventListener('click',function(e){
 
 // Hotel notes: load from localStorage
 document.querySelectorAll('.hotel-note').forEach(function(el){
-  var key='hotel_'+el.dataset.day;
+  var key='hotel_'+(el.dataset.day||el.dataset.key||'');
   var saved=localStorage.getItem(key);
   if(saved){el.textContent=saved;}
   el.addEventListener('input',function(){
@@ -417,16 +417,24 @@ document.querySelectorAll('.hotel-note').forEach(function(el){
   });
 });
 
-// === Multi-note system with jsonblob cloud sync ===
-var BLOB_URL='https://jsonblob.com/api/jsonBlob/019fe227-1ebb-7201-beb6-bd1f4e2a7f21';
+// === Multi-note system (localStorage, works offline from iCloud file) ===
 var DAYS=['924','925','926','927','928','929','930','1001','1002','1003','1004','1005','1006','1007'];
-var notesData={};
-var savingTimeout=null;
+
+function getNotesKey(dayId){return 'trip_notes_'+dayId;}
+
+function getNotes(dayId){
+  try{var d=localStorage.getItem(getNotesKey(dayId));return d?JSON.parse(d):[];}catch(e){return[];}
+}
+function saveNotes(dayId,arr){
+  localStorage.setItem(getNotesKey(dayId),JSON.stringify(arr));
+}
+
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 function renderNotes(dayId){
   var container=document.getElementById('notes-'+dayId);
   if(!container)return;
-  var notes=notesData['notes_'+dayId]||[];
+  var notes=getNotes(dayId);
   var html='';
   notes.forEach(function(text,i){
     html+='<div class="note-item"><span class="note-text">'+escHtml(text)+'</span><button class="note-del" data-day="'+dayId+'" data-idx="'+i+'">&times;</button></div>';
@@ -435,26 +443,18 @@ function renderNotes(dayId){
   container.innerHTML=html;
 }
 
-function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
-function saveToCloud(){
-  clearTimeout(savingTimeout);
-  savingTimeout=setTimeout(function(){
-    fetch(BLOB_URL,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(notesData)}).catch(function(){});
-  },1000);
-}
-
 function addNote(dayId,text){
-  var key='notes_'+dayId;
-  if(!notesData[key])notesData[key]=[];
-  notesData[key].push(text);
+  var arr=getNotes(dayId);
+  arr.push(text);
+  saveNotes(dayId,arr);
   renderNotes(dayId);
-  saveToCloud();
 }
 
 function deleteNote(dayId,idx){
-  var key='notes_'+dayId;
-  if(notesData[key]){notesData[key].splice(idx,1);renderNotes(dayId);saveToCloud();}
+  var arr=getNotes(dayId);
+  arr.splice(idx,1);
+  saveNotes(dayId,arr);
+  renderNotes(dayId);
 }
 
 function showInput(dayId){
@@ -487,37 +487,28 @@ document.addEventListener('click',function(e){
 });
 
 // Inject note containers into each day card
+var allCards=document.querySelectorAll('#s-plan .card');
+var cardIndex=0;
 DAYS.forEach(function(dayId){
-  var cards=document.querySelectorAll('#s-plan .card');
-  cards.forEach(function(card){
-    var badge=card.querySelector('.badge');
-    if(!badge)return;
-    var text=badge.textContent;
-    var dayNum,monthStr;
-    if(dayId.length===3){
-      dayNum=parseInt(dayId.slice(1));
-      monthStr='9/'+dayNum+' ';
-    }else{
-      dayNum=parseInt(dayId.slice(2));
-      monthStr='10/'+dayNum+' ';
+  var dayNum,monthStr;
+  if(dayId.length===3){dayNum=parseInt(dayId.slice(1));monthStr='9/'+dayNum+' ';}
+  else{dayNum=parseInt(dayId.slice(2));monthStr='10/'+dayNum+' ';}
+  for(var i=0;i<allCards.length;i++){
+    var badge=allCards[i].querySelector('.badge');
+    if(badge&&badge.textContent.indexOf(monthStr)!==-1){
+      if(!document.getElementById('notes-'+dayId)){
+        var sec=document.createElement('div');
+        sec.className='notes-section';
+        sec.id='notes-'+dayId;
+        allCards[i].appendChild(sec);
+      }
+      break;
     }
-    if(text.indexOf(monthStr)!==-1&&!document.getElementById('notes-'+dayId)){
-      var sec=document.createElement('div');
-      sec.className='notes-section';
-      sec.id='notes-'+dayId;
-      card.appendChild(sec);
-    }
-  });
+  }
 });
 
-// Load from cloud
-fetch(BLOB_URL).then(function(r){return r.json();}).then(function(data){
-  notesData=data;
-  DAYS.forEach(function(d){renderNotes(d);});
-}).catch(function(){
-  // Fallback: just show empty
-  DAYS.forEach(function(d){renderNotes(d);});
-});
+// Render all notes on load
+DAYS.forEach(function(d){renderNotes(d);});
 </script>
 </body>
 </html>
